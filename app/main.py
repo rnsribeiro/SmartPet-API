@@ -1,10 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from handlers.user import create_user, read_user, list_users
 from handlers.dispenser import create_dispenser, update_level_water, update_level_feed, update_levels, list_dispensers, get_level_water, get_level_feed, get_levels
 
 app = FastAPI()
 
-# Definição das rotas de usuário
+# Rota de login
+app.post("/token")(login_for_access_token)
+
+# Rotas protegidas
 app.post("/user/")(create_user)
 app.get("/user/{user_id}")(read_user)
 app.get("/user/")(list_users)
