@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import bcrypt
 
 # Configurações do JWT
-SECRET_KEY = "71e5416504544c6837efb0de54cdc6a639fed991df584d7e3a98eb8f7aa12c6a"  # Troque isso por uma chave secreta segura
+SECRET_KEY = "71e5416504544c6837efb0de54cdc6a639fed991df584d7e3a98eb8f7aa12c6a"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -59,7 +59,11 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(
         data={"sub": user["username"]}, expires_delta=access_token_expires
     )
-    return {"token_type": "bearer", "access_token": access_token, "expires_in": f"Expires in {ACCESS_TOKEN_EXPIRE_MINUTES} minutes"}
+    return {
+        "token_type": "bearer",
+        "access_token": access_token,
+        "expires_in": f"Expires in {ACCESS_TOKEN_EXPIRE_MINUTES} minutes",
+    }
 
 # Função para obter o usuário atual baseado no token
 def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -80,3 +84,12 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credentials_exception
     return user
+
+# Função para verificar se o usuário é admin
+def is_admin_user(user: dict = Depends(get_current_user)):
+    if user.get("is_admin"):
+        return True
+    raise HTTPException(
+        status_code=403,
+        detail="User does not have permission to access this resource",
+    )

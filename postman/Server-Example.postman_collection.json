@@ -1,0 +1,530 @@
+{
+	"info": {
+		"_postman_id": "2b1abbce-871a-45ac-a14b-2f8549a85990",
+		"name": "Server-Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27302223"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"username\": \"marcia\",\n    \"name\": \"Marcia Soares\",\n    \"email\": \"marcia@gmail.com\",\n    \"password\": \"nan44aocw\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/user"
+					},
+					"response": []
+				},
+				{
+					"name": "GetUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"content\": \"Mensagem criado com o id 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/user"
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserByID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"content\": \"Mensagem criado com o id 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/user/66cdeaf37410617e6f77566d"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"david\",\n    \"password\": \"david101\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "user"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dispenser",
+			"item": [
+				{
+					"name": "CreateDispenser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"water\": 10,\n    \"feed\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/dispenser"
+					},
+					"response": [
+						{
+							"name": "CreateDispenser",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \n    \"water\": 10,\n    \"feed\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/dispenser"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 18:46:47 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "54"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"66cf7098984ebf805579b374\",\n    \"water\": 10,\n    \"feed\": 10\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateLevelWater",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"water\": 25    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "UpdateLevelWater",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \n    \"water\": 25    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 18:48:46 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "46"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Water level updated successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateLevelFeed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"feed\": 78\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "UpdateLevelWater",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{   \n    \"feed\": 78\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 18:50:50 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "45"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Feed level updated successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateLevels",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n    \"water\": 13,\n    \"feed\": 78\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "UpdateLevelFeed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \n    \"water\": 13,\n    \"feed\": 78\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 19:28:11 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "41"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Levels updated successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "ListDispensers",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "ListDispensers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/dispenser"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 19:30:07 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "166"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"66cf6cebfa3573366bb3329b\",\n        \"water\": 13,\n        \"feed\": 78\n    },\n    {\n        \"id\": \"66cf7085984ebf805579b373\",\n        \"water\": 50,\n        \"feed\": 50\n    },\n    {\n        \"id\": \"66cf7098984ebf805579b374\",\n        \"water\": 10,\n        \"feed\": 10\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "GetLevelWater",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "GetLevelWater",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 19:31:54 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "12"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"water\": 13\n}"
+						}
+					]
+				},
+				{
+					"name": "GetLevelFeed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "GetLevelFeed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 19:32:47 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "11"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"feed\": 78\n}"
+						}
+					]
+				},
+				{
+					"name": "GetLevels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+					},
+					"response": [
+						{
+							"name": "GetLevels",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Wed, 28 Aug 2024 19:35:56 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "22"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"water\": 13,\n    \"feed\": 78\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
