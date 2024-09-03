@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "2b1abbce-871a-45ac-a14b-2f8549a85990",
-		"name": "Server-Example",
+		"name": "Server-SmartPet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "27302223"
 	},
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"username\": \"marcia\",\n    \"name\": \"Marcia Soares\",\n    \"email\": \"marcia@gmail.com\",\n    \"password\": \"nan44aocw\"\n}",
+							"raw": "{   \n    \"username\": \"rodrigo\",\n    \"name\": \"Rodrigo Ribeiro\",\n    \"email\": \"rodrigo@gmail.com\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -29,43 +29,31 @@
 				},
 				{
 					"name": "GetUser",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"content\": \"Mensagem criado com o id 1\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
 							}
 						},
+						"method": "GET",
+						"header": [],
 						"url": "http://localhost:8000/user"
 					},
 					"response": []
 				},
 				{
 					"name": "GetUserByID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"content\": \"Mensagem criado com o id 1\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
 							}
 						},
-						"url": "http://localhost:8000/user/66cdeaf37410617e6f77566d"
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/user/66d633e089db24eb874c659e"
 					},
 					"response": []
 				}
@@ -83,40 +71,37 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"david\",\n    \"password\": \"david101\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "rodrigo",
+									"description": "Usuário Admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"description": "Usuário Admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "alice",
+									"description": "Usuário padrão",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "alice123",
+									"description": "Usuário Padrão",
+									"type": "text"
 								}
-							}
+							]
 						},
 						"url": "http://localhost:8000/token"
-					},
-					"response": []
-				},
-				{
-					"name": "Login Copy",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": {
-								"password": "password",
-								"username": "user"
-							}
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"password\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:8000/login"
 					},
 					"response": []
 				}
@@ -128,11 +113,17 @@
 				{
 					"name": "CreateDispenser",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"water\": 10,\n    \"feed\": 10\n}",
+							"raw": "{   \n    \"water\": 99,\n    \"feed\": 99\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -187,6 +178,12 @@
 				{
 					"name": "UpdateLevelWater",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -198,7 +195,7 @@
 								}
 							}
 						},
-						"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+						"url": "http://localhost:8000/dispenser/water/66d34584e26d34626f3afd06"
 					},
 					"response": [
 						{
@@ -364,8 +361,15 @@
 				{
 					"name": "ListDispensers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "http://localhost:8000/dispenser"
 					},
 					"response": [
 						{
@@ -488,7 +492,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+						"url": "http://localhost:8000/dispenser/levels/66d0f67b3b152683cec3823b"
 					},
 					"response": [
 						{
@@ -525,6 +529,79 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "CreatePet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"piu piu\",\n    \"type_pet\": \"passaro\",    \n    \"weight\": 0.2,\n    \"size\": \"pequeno\",\n    \"age\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/pet"
+					},
+					"response": []
+				},
+				{
+					"name": "GetPet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/pet/66d635ab89db24eb874c65ad"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BearerToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYXZpZCIsImV4cCI6MTcyNDk3MDA1N30.OTozTnJOdZFDs-xGNoJB4SjFmhAwEtVWlygwgD2H8CE",
+			"type": "string"
 		}
 	]
 }
