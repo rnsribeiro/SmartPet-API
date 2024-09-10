@@ -17,6 +17,12 @@ class UserCreate(BaseModel):
     email: str
     password: str
 
+# Modelo para a atualização de um usuário
+class UserUpdate(BaseModel):
+    name: str = None
+    email: str = None
+    password: str = None
+
 # Modelo para a resposta da API com o ID e informações do usuário
 class User(BaseModel):
     id: str
@@ -29,11 +35,8 @@ class User(BaseModel):
 def create_user(user: UserCreate):
     existing_user = users_collection.find_one({"$or": [{"username": user.username}, {"email": user.email}]})
     if existing_user:
-        if existing_user.get("username") == user.username:
-            raise HTTPException(status_code=400, detail="Username or Email already registered")
-        if existing_user.get("email") == user.email:
-            raise HTTPException(status_code=400, detail="Username or Email already registered")
-    
+        raise HTTPException(status_code=400, detail="Username or Email already registered")
+
     hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
     new_user = {
         "username": user.username,
@@ -79,3 +82,40 @@ def list_users(current_user: dict = Depends(is_admin_user)):
             )
         )
     return users
+
+# Handler para atualizar um usuário (apenas o próprio usuário logado)
+def update_user(user_id: str, user_data: UserUpdate, current_user: dict = Depends(get_current_user)):
+    obj_id = ObjectId(user_id)
+    user = users_collection.find_one({"_id": obj_id})
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if str(user["_id"]) != str(current_user["_id"]):
+        raise HTTPException(status_code=403, detail="You can only update your own information")
+
+    updated_data = {k: v for k, v in user_data.dict(exclude_unset=True).items() if v is not None}
+    if "password" in updated_data:
+        updated_data["password"] = bcrypt.hashpw(updated_data["password"].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    users_collection.update_one({"_id": obj_id}, {"$set": updated_data})
+    user.update(updated_data)
+
+    return User(
+        id=str(user["_id"]),
+        username=user["username"],
+        name=user["name"],
+        email=user["email"],
+        is_admin=user.get("is_admin", False),
+    )
+
+# Handler para deletar um usuário (apenas admin)
+def delete_user(user_id: str, current_user: dict = Depends(is_admin_user)):
+    obj_id = ObjectId(user_id)
+    user = users_collection.find_one({"_id": obj_id})
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    users_collection.delete_one({"_id": obj_id})
+    return {"detail": "User deleted successfully"}

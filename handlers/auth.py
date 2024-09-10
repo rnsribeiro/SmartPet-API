@@ -60,9 +60,9 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
         data={"sub": user["username"]}, expires_delta=access_token_expires
     )
     return {
-        "token_type": "bearer",
         "access_token": access_token,
         "expires_in": f"Expires in {ACCESS_TOKEN_EXPIRE_MINUTES} minutes",
+        "token_type": "bearer",
     }
 
 # Função para obter o usuário atual baseado no token
