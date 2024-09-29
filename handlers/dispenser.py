@@ -10,29 +10,29 @@ dispensers_collection = db.dispensers
 
 # Modelos para a criação de um novo dispenser
 class DispenserCreate(BaseModel):
-    code: int  # O código será enviado pelo usuário
+    code: str  # O código será enviado pelo usuário
     water: int
     feed: int
     
 # Modelos para a resposta da API com o código do dispenser e suas informações
 class Dispenser(BaseModel):
-    code: int
+    code: str
     water: int
     feed: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de água
 class WaterLevelUpdate(BaseModel):
-    code: int
+    code: str
     water: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de ração
 class FeedLevelUpdate(BaseModel):
-    code: int
+    code: str
     feed: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para os níveis de água e ração
 class LevelsUpdate(BaseModel):
-    code: int
+    code: str
     water: int
     feed: int
 
@@ -77,21 +77,21 @@ def update_levels(levels_update: LevelsUpdate):
     return {"message": "Levels updated successfully"}
 
 # Handler para ler o nível de água
-def get_level_water(code: int):
+def get_level_water(code: str):
     result = dispensers_collection.find_one({"code": code})
     if result is None:
         raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"water": result["water"]}
 
 # Handler para ler o nível de ração
-def get_level_feed(code: int):
+def get_level_feed(code: str):
     result = dispensers_collection.find_one({"code": code})
     if result is None:
         raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"feed": result["feed"]}
 
 # Handler para ler os níveis de água e ração
-def get_levels(code: int):
+def get_levels(code: str):
     result = dispensers_collection.find_one({"code": code})
     if result is None:
         raise HTTPException(status_code=404, detail="Dispenser not found")
