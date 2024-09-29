@@ -282,16 +282,13 @@
 					"name": "CreateDispenser",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{BearerToken}}"
-							}
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"water\": 99,\n    \"feed\": 99\n}",
+							"raw": "{   \n    \"code\": 123456,\n    \"water\": 99,\n    \"feed\": 99\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -347,23 +344,39 @@
 					"name": "UpdateLevelWater",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{BearerToken}}"
-							}
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"water\": 25    \n}",
+							"raw": "{ \n    \"code\" : 123456,\n    \"water\": 25    \n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/dispenser/water/66d34584e26d34626f3afd06"
+						"url": {
+							"raw": "http://localhost:8000/dispenser/water/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"dispenser",
+								"water",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "123456",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": [
 						{
@@ -415,14 +428,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"feed\": 78\n}",
+							"raw": "{   \n    \"code\": 123456,\n    \"feed\": 78\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+						"url": "http://localhost:8000/dispenser/feed/"
 					},
 					"response": [
 						{
@@ -474,14 +487,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{  \n    \"water\": 13,\n    \"feed\": 78\n}",
+							"raw": "{  \n    \"code\": 123456,\n    \"water\": 13,\n    \"feed\": 78\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/dispenser/levels/66cf6cebfa3573366bb3329b"
+						"url": "http://localhost:8000/dispenser/levels/"
 					},
 					"response": [
 						{
@@ -578,7 +591,25 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8000/dispenser/water/66cf6cebfa3573366bb3329b"
+						"url": {
+							"raw": "http://localhost:8000/dispenser/water/?code=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"dispenser",
+								"water",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "123456"
+								}
+							]
+						}
 					},
 					"response": [
 						{
@@ -619,7 +650,25 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8000/dispenser/feed/66cf6cebfa3573366bb3329b"
+						"url": {
+							"raw": "http://localhost:8000/dispenser/feed/?code=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"dispenser",
+								"feed",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "123456"
+								}
+							]
+						}
 					},
 					"response": [
 						{
@@ -660,7 +709,25 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8000/dispenser/levels/66d0f67b3b152683cec3823b"
+						"url": {
+							"raw": "http://localhost:8000/dispenser/levels/?code=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"dispenser",
+								"levels",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "123456"
+								}
+							]
+						}
 					},
 					"response": [
 						{

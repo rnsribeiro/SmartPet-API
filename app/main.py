@@ -23,6 +23,11 @@ from handlers.feeding_schedule import (
 
 app = FastAPI()
 
+# Adiciona a rota raiz para exibir a mensagem "It's work"
+@app.get("/")
+def read_root():
+    return {"message": "It's work"}
+
 # Rota de login
 app.post("/token")(login_for_access_token)
 
@@ -34,14 +39,14 @@ app.put("/user/{user_id}", dependencies=[Depends(get_current_user)])(update_user
 app.delete("/user/{user_id}", dependencies=[Depends(get_current_user)])(delete_user)
 
 # Rotas protegidas para dispensers
-app.post("/dispenser/", dependencies=[Depends(get_current_user)])(create_dispenser)
-app.post("/dispenser/water/{dispenser_id}", dependencies=[Depends(get_current_user)])(update_level_water)
-app.post("/dispenser/feed/{dispenser_id}", dependencies=[Depends(get_current_user)])(update_level_feed)
-app.post("/dispenser/levels/{dispenser_id}", dependencies=[Depends(get_current_user)])(update_levels)
-app.get("/dispenser/", dependencies=[Depends(get_current_user)])(list_dispensers)
-app.get("/dispenser/water/{dispenser_id}", dependencies=[Depends(get_current_user)])(get_level_water)
-app.get("/dispenser/feed/{dispenser_id}", dependencies=[Depends(get_current_user)])(get_level_feed)
-app.get("/dispenser/levels/{dispenser_id}", dependencies=[Depends(get_current_user)])(get_levels)
+app.post("/dispenser/") (create_dispenser)
+app.post("/dispenser/water/") (update_level_water)
+app.post("/dispenser/feed/") (update_level_feed)
+app.post("/dispenser/levels/") (update_levels)
+app.get("/dispenser/") (list_dispensers)
+app.get("/dispenser/water/") (get_level_water)
+app.get("/dispenser/feed/") (get_level_feed)
+app.get("/dispenser/levels/") (get_levels)
 
 # Rotas protegidas para pets
 app.post("/pet/", dependencies=[Depends(get_current_user)])(create_pet)

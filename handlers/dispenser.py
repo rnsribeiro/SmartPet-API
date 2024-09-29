@@ -1,100 +1,103 @@
-from fastapi import FastAPI, HTTPException, Body, Depends
+from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from bson import ObjectId
-from pydantic import BaseModel
-from handlers.auth import get_current_user
 
 # Conecte-se ao MongoDB
 client = MongoClient("mongodb://smartpet:smartpet@localhost:27017/")
 db = client.smartpet
 dispensers_collection = db.dispensers
 
-# modelos para a criação de um novo dispenser
-class DispenserCreate(BaseModel):    
+# Modelos para a criação de um novo dispenser
+class DispenserCreate(BaseModel):
+    code: int  # O código será enviado pelo usuário
     water: int
     feed: int
     
-# modelos para a resposta da API com o ID e informações do dispenser
+# Modelos para a resposta da API com o código do dispenser e suas informações
 class Dispenser(BaseModel):
-    id: str
+    code: int
     water: int
     feed: int
-    owner: str
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de água
 class WaterLevelUpdate(BaseModel):
+    code: int
     water: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de ração
 class FeedLevelUpdate(BaseModel):
+    code: int
     feed: int
 
-# Definindo o modelo Pydantic para o JSON de entrada para o nivel de ração e água
+# Definindo o modelo Pydantic para o JSON de entrada para os níveis de água e ração
 class LevelsUpdate(BaseModel):
+    code: int
     water: int
     feed: int
 
 # Handler para criar um novo dispenser
-def create_dispenser(dispenser: DispenserCreate, current_user: dict = Depends(get_current_user)):
+def create_dispenser(dispenser: DispenserCreate):
+    # Verificar se o código já está em uso
+    if dispensers_collection.find_one({"code": dispenser.code}):
+        raise HTTPException(status_code=400, detail="Code already in use")
+
     new_dispenser = dispenser.dict()
-    new_dispenser["owner"] = str(current_user["_id"])
     result = dispensers_collection.insert_one(new_dispenser)
-    return Dispenser(id=str(result.inserted_id), owner=new_dispenser["owner"], **dispenser.dict())
+    return Dispenser(**new_dispenser)  # Corrigir esta linha
 
 # Handler para atualizar o nível de água
-def update_level_water(dispenser_id: str, level_water: WaterLevelUpdate, current_user: dict = Depends(get_current_user)):
+def update_level_water(level_water: WaterLevelUpdate):
     result = dispensers_collection.update_one(
-        {"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])}, 
+        {"code": level_water.code}, 
         {"$set": {"water": level_water.water}}
     )
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to update it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"message": "Water level updated successfully"}
 
-# Handler para atualizar o nivel de racao
-def update_level_feed(dispenser_id: str, level_feed: FeedLevelUpdate, current_user: dict = Depends(get_current_user)):
+# Handler para atualizar o nível de ração
+def update_level_feed(level_feed: FeedLevelUpdate):
     result = dispensers_collection.update_one(
-        {"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])}, 
+        {"code": level_feed.code}, 
         {"$set": {"feed": level_feed.feed}}
     )
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to update it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"message": "Feed level updated successfully"}
 
-# Handler para atualizar o nivel de agua e de racao
-def update_levels(dispenser_id: str, levels_update: LevelsUpdate, current_user: dict = Depends(get_current_user)):
+# Handler para atualizar o nível de água e ração
+def update_levels(levels_update: LevelsUpdate):
     result = dispensers_collection.update_one(
-        {"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])}, 
+        {"code": levels_update.code}, 
         {"$set": {"water": levels_update.water, "feed": levels_update.feed}}
     )
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to update it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"message": "Levels updated successfully"}
 
-# Handler para ler o nivel de agua
-def get_level_water(dispenser_id: str, current_user: dict = Depends(get_current_user)):
-    result = dispensers_collection.find_one({"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])})
+# Handler para ler o nível de água
+def get_level_water(code: int):
+    result = dispensers_collection.find_one({"code": code})
     if result is None:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to view it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"water": result["water"]}
 
-# Handler para ler o nivel de racao
-def get_level_feed(dispenser_id: str, current_user: dict = Depends(get_current_user)):
-    result = dispensers_collection.find_one({"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])})
+# Handler para ler o nível de ração
+def get_level_feed(code: int):
+    result = dispensers_collection.find_one({"code": code})
     if result is None:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to view it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"feed": result["feed"]}
 
-# Handler para ler o nivel de agua e de racao
-def get_levels(dispenser_id: str, current_user: dict = Depends(get_current_user)):
-    result = dispensers_collection.find_one({"_id": ObjectId(dispenser_id), "owner": str(current_user["_id"])})
+# Handler para ler os níveis de água e ração
+def get_levels(code: int):
+    result = dispensers_collection.find_one({"code": code})
     if result is None:
-        raise HTTPException(status_code=404, detail="Dispenser not found or you don't have permission to view it")
+        raise HTTPException(status_code=404, detail="Dispenser not found")
     return {"water": result["water"], "feed": result["feed"]}
 
-# Handler para listar todos os dispensers do usuário atual
-def list_dispensers(current_user: dict = Depends(get_current_user)):
-    results = dispensers_collection.find({"owner": str(current_user["_id"])})
-    return [Dispenser(id=str(result["_id"]), owner=result["owner"], water=result["water"], feed=result["feed"]) for result in results]
+# Handler para listar todos os dispensers
+def list_dispensers():
+    results = dispensers_collection.find({})
+    return [Dispenser(code=result["code"], water=result["water"], feed=result["feed"]) for result in results]
