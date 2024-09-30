@@ -12,13 +12,13 @@ dispensers_collection = db.dispensers
 class DispenserCreate(BaseModel):
     code: str  # O código será enviado pelo usuário
     water: int
-    feed: int
+    food: int
     
 # Modelos para a resposta da API com o código do dispenser e suas informações
 class Dispenser(BaseModel):
     code: str
     water: int
-    feed: int
+    food: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de água
 class WaterLevelUpdate(BaseModel):
@@ -26,15 +26,15 @@ class WaterLevelUpdate(BaseModel):
     water: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para o nível de ração
-class FeedLevelUpdate(BaseModel):
+class FoodLevelUpdate(BaseModel):
     code: str
-    feed: int
+    food: int
 
 # Definindo o modelo Pydantic para o JSON de entrada para os níveis de água e ração
 class LevelsUpdate(BaseModel):
     code: str
     water: int
-    feed: int
+    food: int
 
 # Handler para criar um novo dispenser
 def create_dispenser(dispenser: DispenserCreate):
@@ -57,20 +57,20 @@ def update_level_water(level_water: WaterLevelUpdate):
     return {"message": "Water level updated successfully"}
 
 # Handler para atualizar o nível de ração
-def update_level_feed(level_feed: FeedLevelUpdate):
+def update_level_food(level_food: FoodLevelUpdate):
     result = dispensers_collection.update_one(
-        {"code": level_feed.code}, 
-        {"$set": {"feed": level_feed.feed}}
+        {"code": level_food.code}, 
+        {"$set": {"food": level_food.food}}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Dispenser not found")
-    return {"message": "Feed level updated successfully"}
+    return {"message": "Food level updated successfully"}
 
 # Handler para atualizar o nível de água e ração
 def update_levels(levels_update: LevelsUpdate):
     result = dispensers_collection.update_one(
         {"code": levels_update.code}, 
-        {"$set": {"water": levels_update.water, "feed": levels_update.feed}}
+        {"$set": {"water": levels_update.water, "food": levels_update.food}}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Dispenser not found")
@@ -84,20 +84,20 @@ def get_level_water(code: str):
     return {"water": result["water"]}
 
 # Handler para ler o nível de ração
-def get_level_feed(code: str):
+def get_level_food(code: str):
     result = dispensers_collection.find_one({"code": code})
     if result is None:
         raise HTTPException(status_code=404, detail="Dispenser not found")
-    return {"feed": result["feed"]}
+    return {"food": result["food"]}
 
 # Handler para ler os níveis de água e ração
 def get_levels(code: str):
     result = dispensers_collection.find_one({"code": code})
     if result is None:
         raise HTTPException(status_code=404, detail="Dispenser not found")
-    return {"water": result["water"], "feed": result["feed"]}
+    return {"water": result["water"], "food": result["food"]}
 
 # Handler para listar todos os dispensers
 def list_dispensers():
     results = dispensers_collection.find({})
-    return [Dispenser(code=result["code"], water=result["water"], feed=result["feed"]) for result in results]
+    return [Dispenser(code=result["code"], water=result["water"], food=result["food"]) for result in results]

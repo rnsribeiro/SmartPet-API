@@ -288,7 +288,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"code\": \"123456\",\n    \"water\": 99,\n    \"feed\": 99\n}",
+							"raw": "{   \n    \"code\": \"123456\",\n    \"water\": 99,\n    \"food\": 99\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -422,13 +422,13 @@
 					]
 				},
 				{
-					"name": "UpdateLevelFeed",
+					"name": "UpdateLevelFood",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"code\": \"123456\",\n    \"feed\": 78\n}",
+							"raw": "{   \n    \"code\": \"123456\",\n    \"food\": 78\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -487,7 +487,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{  \n    \"code\": \"123456\",\n    \"water\": 13,\n    \"feed\": 78\n}",
+							"raw": "{  \n    \"code\": \"123456\",\n    \"water\": 13,\n    \"food\": 78\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -646,12 +646,12 @@
 					]
 				},
 				{
-					"name": "GetLevelFeed",
+					"name": "GetLevelFood",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/dispenser/feed/?code=123456",
+							"raw": "http://localhost:8000/dispenser/food/?code=123456",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -659,7 +659,7 @@
 							"port": "8000",
 							"path": [
 								"dispenser",
-								"feed",
+								"food",
 								""
 							],
 							"query": [
@@ -1111,10 +1111,10 @@
 			]
 		},
 		{
-			"name": "FeedingSchedule",
+			"name": "FoodingSchedule",
 			"item": [
 				{
-					"name": "CreateFeedingSchedule",
+					"name": "CreateFoodingSchedule",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1126,14 +1126,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dispenser_id\": \"66e0b17f2b2a4a6d70f7d8d3\",\n    \"feed_time\": \"22:00\",\n    \"amount\": 50\n}",
+							"raw": "{\n    \"dispenser_id\": \"66e0b17f2b2a4a6d70f7d8d3\",\n    \"food_time\": \"22:00\",\n    \"amount\": 50\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/feeding_schedule/"
+						"url": "http://localhost:8000/fooding_schedule/"
 					},
 					"response": [
 						{
@@ -1179,7 +1179,7 @@
 					]
 				},
 				{
-					"name": "ListFeedingSchedule",
+					"name": "ListFoodingSchedule",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1226,7 +1226,7 @@
 					]
 				},
 				{
-					"name": "UpdateFeedingSchedule",
+					"name": "UpdateFoodingSchedule",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1238,14 +1238,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"feed_time\": \"08:30\",\n    \"amount\": 60\n}",
+							"raw": "{\n    \"food_time\": \"08:30\",\n    \"amount\": 60\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/feeding_schedule/66e0bf42c21f14ba62a313c0"
+						"url": "http://localhost:8000/fooding_schedule/66e0bf42c21f14ba62a313c0"
 					},
 					"response": [
 						{
@@ -1291,7 +1291,7 @@
 					]
 				},
 				{
-					"name": "SkipFeedintSchedule",
+					"name": "SkipFoodintSchedule",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1301,7 +1301,7 @@
 						},
 						"method": "PATCH",
 						"header": [],
-						"url": "http://localhost:8000/feeding_schedule/skip/66e0db03c21f14ba62a313c3"
+						"url": "http://localhost:8000/fooding_schedule/skip/66e0db03c21f14ba62a313c3"
 					},
 					"response": [
 						{
@@ -1338,7 +1338,7 @@
 					]
 				},
 				{
-					"name": "DeleteFeedingSchedule",
+					"name": "DeleteFoodingSchedule",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1348,7 +1348,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8000/feeding_schedule/66e0db03c21f14ba62a313c3"
+						"url": "http://localhost:8000/fooding_schedule/66e0db03c21f14ba62a313c3"
 					},
 					"response": [
 						{
