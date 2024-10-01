@@ -3,22 +3,22 @@ from handlers.user import create_user, read_user, list_users, update_user, delet
 from handlers.dispenser import (
     create_dispenser,
     update_level_water,
-    update_level_feed,
+    update_level_food,
     update_levels,
     list_dispensers,
     get_level_water,
-    get_level_feed,
+    get_level_food,
     get_levels,
 )
 from handlers.auth import login_for_access_token, get_current_user
 from handlers.pet import create_pet, read_pet, update_pet, delete_pet, list_pets
 from handlers.vaccine import create_vaccine, list_vaccines_by_pet, update_vaccine, delete_vaccine
-from handlers.feeding_schedule import (
-    create_feeding_schedule,
-    list_feeding_schedules,
-    update_feeding_schedule,
-    skip_feeding_schedule,
-    delete_feeding_schedule,  # Import do novo handler para deletar
+from handlers.fooding_schedule import (
+    create_fooding_schedule,
+    list_fooding_schedules,
+    update_fooding_schedule,
+    skip_fooding_schedule,
+    delete_fooding_schedule,  # Import do novo handler para deletar
 )
 
 app = FastAPI()
