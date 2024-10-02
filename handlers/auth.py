@@ -9,7 +9,7 @@ import bcrypt
 # Configurações do JWT
 SECRET_KEY = "71e5416504544c6837efb0de54cdc6a639fed991df584d7e3a98eb8f7aa12c6a"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_HOURS = 6
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -55,13 +55,13 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
             status_code=400,
             detail="Incorrect username or password",
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
     access_token = create_access_token(
         data={"sub": user["username"]}, expires_delta=access_token_expires
     )
     return {
         "access_token": access_token,
-        "expires_in": f"Expires in {ACCESS_TOKEN_EXPIRE_MINUTES} minutes",
+        "expires_in": f"Expires in {ACCESS_TOKEN_EXPIRE_HOURS} hours",
         "token_type": "bearer",
     }
 

@@ -101,3 +101,10 @@ def get_levels(code: str):
 def list_dispensers():
     results = dispensers_collection.find({})
     return [Dispenser(code=result["code"], water=result["water"], food=result["food"]) for result in results]
+
+# Handler para deletar um dispenser
+def delete_dispenser(code: str):
+    result = dispensers_collection.delete_one({"code": code})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Dispenser not found")
+    return {"message": "Dispenser deleted successfully"}

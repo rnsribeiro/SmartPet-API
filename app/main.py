@@ -9,6 +9,7 @@ from handlers.dispenser import (
     get_level_water,
     get_level_food,
     get_levels,
+    delete_dispenser,
 )
 from handlers.auth import login_for_access_token, get_current_user
 from handlers.pet import create_pet, read_pet, update_pet, delete_pet, list_pets
@@ -47,6 +48,7 @@ app.get("/dispenser/") (list_dispensers)
 app.get("/dispenser/water/") (get_level_water)
 app.get("/dispenser/food/") (get_level_food)
 app.get("/dispenser/levels/") (get_levels)
+app.delete("/dispenser/") (delete_dispenser)
 
 # Rotas protegidas para pets
 app.post("/pet/", dependencies=[Depends(get_current_user)])(create_pet)
@@ -62,8 +64,8 @@ app.put("/vaccine/{vaccine_id}")(update_vaccine)
 app.delete("/vaccine/{vaccine_id}")(delete_vaccine)
 
 # Rotas protegidas para horários de alimentação
-app.post("/fooding_schedule/", dependencies=[Depends(get_current_user)])(create_fooding_schedule)
-app.get("/fooding_schedule/{dispenser_id}", dependencies=[Depends(get_current_user)])(list_fooding_schedules)
-app.put("/fooding_schedule/{schedule_id}", dependencies=[Depends(get_current_user)])(update_fooding_schedule)
+app.post("/fooding_schedule/")(create_fooding_schedule)
+app.get("/fooding_schedule/")(list_fooding_schedules)
+app.put("/fooding_schedule/{schedule_id}")(update_fooding_schedule)
 app.patch("/fooding_schedule/skip/{schedule_id}", dependencies=[Depends(get_current_user)])(skip_fooding_schedule)  # Rota para pular refeição
 app.delete("/fooding_schedule/{schedule_id}", dependencies=[Depends(get_current_user)])(delete_fooding_schedule)  # Rota para deletar horário
