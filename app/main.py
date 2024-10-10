@@ -76,5 +76,5 @@ app.delete("/vaccine/{vaccine_id}")(delete_vaccine)
 app.post("/fooding_schedule/", dependencies=[Depends(get_current_user)])(create_fooding_schedule)
 app.get("/fooding_schedule/")(list_fooding_schedules)
 app.put("/fooding_schedule/{schedule_id}")(update_fooding_schedule)
-app.patch("/fooding_schedule/skip/{schedule_id}", dependencies=[Depends(get_current_user)])(skip_fooding_schedule)  # Rota para pular refeição
+app.patch("/fooding_schedule/skip/{schedule_id}")(skip_fooding_schedule)  # Rota para pular refeição
 app.delete("/fooding_schedule/{schedule_id}", dependencies=[Depends(get_current_user)])(delete_fooding_schedule)  # Rota para deletar horário

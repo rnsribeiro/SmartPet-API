@@ -22,7 +22,7 @@ class FoodingScheduleUpdate(BaseModel):
     code: str
     food_time: str
     amount: int
-    type_food: str
+    # type_food: str
 
 # Modelo para a resposta da API com a lista de horários de alimentação
 class FoodingScheduleResponse(BaseModel):
@@ -111,7 +111,7 @@ def update_fooding_schedule(schedule_id: str, schedule_data: FoodingScheduleUpda
     return {"message": "Fooding schedule updated successfully"}
 
 # Handler para pular uma refeição
-def skip_fooding_schedule(schedule_id: str, current_user: dict = Depends(get_current_user)):
+def skip_fooding_schedule(schedule_id: str):
     result = fooding_schedule_collection.update_one(
         {"_id": ObjectId(schedule_id)},
         {"$set": {"is_released": True}}
