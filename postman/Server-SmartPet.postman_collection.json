@@ -24,27 +24,27 @@
 									"key": "username",
 									"value": "rodrigo",
 									"description": "Usuário Admin",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "123456",
 									"description": "Usuário Admin",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "username",
 									"value": "alice",
 									"description": "Usuário padrão",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "password",
 									"value": "alice123",
 									"description": "Usuário Padrão",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
@@ -227,6 +227,53 @@
 					]
 				},
 				{
+					"name": "GetMyUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{BearerToken}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/user/me/"
+					},
+					"response": [
+						{
+							"name": "GetUser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/user"
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Tue, 10 Sep 2024 20:08:37 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "66"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"User does not have permission to access this resource\"\n}"
+						}
+					]
+				},
+				{
 					"name": "GetUserByID",
 					"request": {
 						"auth": {
@@ -288,7 +335,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \n    \"code\": \"123456\",\n    \"water\": 99,\n    \"food\": 99\n}",
+							"raw": "{   \n    \"code\": \"123456\",\n    \"water\": 66,\n    \"food\": 25\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -487,7 +534,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{  \n    \"code\": \"123456\",\n    \"water\": 13,\n    \"food\": 78\n}",
+							"raw": "{  \n    \"code\": \"123456\",\n    \"water\": 66,\n    \"food\": 25\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -760,6 +807,81 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"water\": 13,\n    \"feed\": 78\n}"
+						}
+					]
+				},
+				{
+					"name": "DeleteDispenser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/dispenser/?code=858585",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"dispenser",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "858585"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "DeleteDispenser",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/dispenser/?code=858585",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"dispenser",
+										""
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "858585"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "date",
+									"value": "Tue, 01 Oct 2024 20:42:10 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-length",
+									"value": "44"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Dispenser deleted successfully\"\n}"
 						}
 					]
 				}
@@ -1126,7 +1248,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dispenser_id\": \"66e0b17f2b2a4a6d70f7d8d3\",\n    \"food_time\": \"22:00\",\n    \"amount\": 50\n}",
+							"raw": "{\n    \"code\": \"123456\",\n    \"food_time\": \"18:00\",\n    \"amount\": 50,\n    \"type_food\": \"automatica\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1189,7 +1311,24 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8000/feeding_schedule/66e0b17f2b2a4a6d70f7d8d3"
+						"url": {
+							"raw": "http://localhost:8000/fooding_schedule/?code=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"fooding_schedule",
+								""
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "123456"
+								}
+							]
+						}
 					},
 					"response": [
 						{
@@ -1238,14 +1377,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"food_time\": \"08:30\",\n    \"amount\": 60\n}",
+							"raw": "{\n    \"code\": \"123456\",\n    \"food_time\": \"08:33\",\n    \"amount\": 33\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8000/fooding_schedule/66e0bf42c21f14ba62a313c0"
+						"url": "http://localhost:8000/fooding_schedule/66fc4bf3341ca01d4b0e58f2"
 					},
 					"response": [
 						{
@@ -1301,7 +1440,7 @@
 						},
 						"method": "PATCH",
 						"header": [],
-						"url": "http://localhost:8000/fooding_schedule/skip/66e0db03c21f14ba62a313c3"
+						"url": "http://localhost:8000/fooding_schedule/skip/66fc4b68341ca01d4b0e58f0"
 					},
 					"response": [
 						{
@@ -1348,7 +1487,7 @@
 						},
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8000/fooding_schedule/66e0db03c21f14ba62a313c3"
+						"url": "http://localhost:8000/fooding_schedule/67059287f86bf9312e19f256"
 					},
 					"response": [
 						{
