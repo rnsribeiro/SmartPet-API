@@ -68,6 +68,20 @@ def read_user(user_id: str, current_user: dict = Depends(get_current_user)):
         is_admin=user.get("is_admin", False),
     )
 
+# Handler para obter as informações do usuário logado
+def get_logged_user(current_user: dict = Depends(get_current_user)):
+    user = users_collection.find_one({"_id": ObjectId(current_user["_id"])})
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return User(
+        id=str(user["_id"]),
+        username=user["username"],
+        name=user["name"],
+        email=user["email"],
+        is_admin=user.get("is_admin", False),
+    )
+
 # Handler para listar todos os usuários (apenas para admin)
 def list_users(current_user: dict = Depends(is_admin_user)):
     users = []
