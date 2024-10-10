@@ -51,7 +51,7 @@ def create_fooding_schedule(fooding_schedule: FoodingScheduleCreate, current_use
     new_schedule = fooding_schedule.dict()
     new_schedule["code"] = fooding_schedule.code
     new_schedule["food_time"] = fooding_schedule.food_time  # Mantém como string HH:MM
-    new_schedule["is_released"] = False  # Inicialmente, o alimento não foi liberado
+    new_schedule["is_active"] = True  # Campo para definir se o horário de alimentação está ativo
     new_schedule["type_food"] = fooding_schedule.type_food
     result = fooding_schedule_collection.insert_one(new_schedule)
     return {"message": "Fooding schedule added successfully"}
@@ -64,7 +64,7 @@ def list_fooding_schedules(code: str):
         "code": str(schedule["code"]),
         "food_time": schedule["food_time"],  # Já está no formato HH:MM
         "amount": schedule["amount"],
-        "is_released": schedule["is_released"],
+        "is_active": schedule["is_active"],
         "type_food": schedule["type_food"]
     } for schedule in schedules]
     return FoodingScheduleResponse(
@@ -114,7 +114,7 @@ def update_fooding_schedule(schedule_id: str, schedule_data: FoodingScheduleUpda
 def skip_fooding_schedule(schedule_id: str):
     result = fooding_schedule_collection.update_one(
         {"_id": ObjectId(schedule_id)},
-        {"$set": {"is_released": True}}
+        {"$set": {"is_active": False}}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Fooding schedule not found")
