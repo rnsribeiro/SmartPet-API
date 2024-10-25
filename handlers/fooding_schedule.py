@@ -1,6 +1,6 @@
 from fastapi import HTTPException, Depends
 from pydantic import BaseModel
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING  # Importar o operador ASCENDING para ordenar
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
 from handlers.auth import get_current_user
@@ -56,9 +56,10 @@ def create_fooding_schedule(fooding_schedule: FoodingScheduleCreate, current_use
     result = fooding_schedule_collection.insert_one(new_schedule)
     return {"message": "Fooding schedule added successfully"}
 
-# Handler para listar os horários de alimentação de um dispenser específico
+# Handler para listar os horários de alimentação de um dispenser específico e ordenar por food_time
 def list_fooding_schedules(code: str):
-    schedules = fooding_schedule_collection.find({"code": code})
+    # Adiciona a função sort para ordenar a consulta pelo campo 'food_time'
+    schedules = fooding_schedule_collection.find({"code": code}).sort("food_time", ASCENDING)
     schedule_list = [{
         "_id": str(schedule["_id"]),
         "code": str(schedule["code"]),

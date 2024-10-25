@@ -9,7 +9,7 @@ import bcrypt
 # Configurações do JWT
 SECRET_KEY = "71e5416504544c6837efb0de54cdc6a639fed991df584d7e3a98eb8f7aa12c6a"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_HOURS = 6
+ACCESS_TOKEN_EXPIRE_HOURS = 24
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

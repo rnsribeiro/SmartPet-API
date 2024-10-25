@@ -46,14 +46,16 @@ def create_vaccine(vaccine: VaccineCreate, current_user: dict = Depends(get_curr
     return {"message": "Vaccine added successfully"}
 
 # Handler para listar as vacinas de um pet específico
+# Handler para listar as vacinas de um pet específico, ordenadas por data de aplicação
 def list_vaccines_by_pet(pet_id: str, current_user: dict = Depends(get_current_user)):
     # Verifica se o pet existe no banco de dados
     pet = pets_collection.find_one({"_id": ObjectId(pet_id)})
     if not pet:
         raise HTTPException(status_code=404, detail="Pet not found")
 
-    # Busca as vacinas do pet
-    vaccines = vaccines_collection.find({"pet_id": ObjectId(pet_id)})
+    # Busca as vacinas do pet e ordena por `application_date` em ordem crescente
+    vaccines = vaccines_collection.find({"pet_id": ObjectId(pet_id)}).sort("application_date", 1)  # 1 para ordem crescente e -1 para ordem decrescente
+    
     vaccine_list = [{
         "id": str(v["_id"]),
         "vaccine_name": v["vaccine_name"],
@@ -61,6 +63,7 @@ def list_vaccines_by_pet(pet_id: str, current_user: dict = Depends(get_current_u
     } for v in vaccines]
 
     return vaccine_list
+
 
 # Handler para atualizar uma vacina
 def update_vaccine(vaccine_id: str, vaccine_data: VaccineUpdate, current_user: dict = Depends(get_current_user)):
