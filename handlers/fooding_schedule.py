@@ -35,17 +35,27 @@ def create_fooding_schedule(fooding_schedule: FoodingScheduleCreate, current_use
     food_time = datetime.strptime(fooding_schedule.food_time, "%H:%M").time()
 
     # Define o período de 1 hora antes e depois do horário especificado
-    one_hour_ago = (datetime.combine(datetime.today(), food_time) - timedelta(hours=1)).strftime("%H:%M")
-    one_hour_later = (datetime.combine(datetime.today(), food_time) + timedelta(hours=1)).strftime("%H:%M")
+    # one_hour_ago = (datetime.combine(datetime.today(), food_time) - timedelta(hours=1)).strftime("%H:%M")
+    # one_hour_later = (datetime.combine(datetime.today(), food_time) + timedelta(hours=1)).strftime("%H:%M")
 
-    # Verifica se há algum horário de alimentação dentro do período de 1 hora
+    # # Verifica se há algum horário de alimentação dentro do período de 1 hora
+    # conflicting_schedule = fooding_schedule_collection.find_one({
+    #     "code": fooding_schedule.code,
+    #     "food_time": {"$gte": one_hour_ago, "$lte": one_hour_later}
+    # })
+
+    # Define o intervalo de 1 minuto antes e depois do horário especificado
+    one_minute_ago = (datetime.combine(datetime.today(), food_time) - timedelta(minutes=1)).strftime("%H:%M")
+    one_minute_later = (datetime.combine(datetime.today(), food_time) + timedelta(minutes=1)).strftime("%H:%M")
+
+    # Verifica se há algum horário de alimentação dentro do período de 1 minuto
     conflicting_schedule = fooding_schedule_collection.find_one({
         "code": fooding_schedule.code,
-        "food_time": {"$gte": one_hour_ago, "$lte": one_hour_later}
+        "food_time": {"$gte": one_minute_ago, "$lte": one_minute_later}
     })
 
     if conflicting_schedule:
-        raise HTTPException(status_code=400, detail="Cannot create fooding schedule within 1 hour of an existing schedule")
+        raise HTTPException(status_code=400, detail="Cannot create fooding schedule within 1 minute of an existing schedule")
 
     # Converte food_time para string antes de salvar
     new_schedule = fooding_schedule.dict()
@@ -93,7 +103,7 @@ def update_fooding_schedule(schedule_id: str, schedule_data: FoodingScheduleUpda
     })
 
     if conflicting_schedule:
-        raise HTTPException(status_code=400, detail="Cannot create fooding schedule within 1 hour of an existing schedule")
+        raise HTTPException(status_code=400, detail="Cannot create fooding schedule within 1 minute of an existing schedule")
 
     update_data = {}
     if schedule_data.food_time is not None:
