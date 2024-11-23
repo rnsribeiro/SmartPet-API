@@ -31,6 +31,15 @@ from handlers.fooding_schedule import (
 
 app = FastAPI()
 
+# Configuração para aceitar conexões de qualquer origem
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite qualquer origem
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite qualquer método HTTP
+    allow_headers=["*"],  # Permite qualquer cabeçalho
+)
+
 # Adiciona a rota raiz para exibir a mensagem "It's work"
 @app.get("/")
 def read_root():
